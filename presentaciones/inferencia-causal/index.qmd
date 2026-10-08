@@ -3,27 +3,6 @@ title: "Inferencia causal"
 subtitle: "Econometría con Machine Learning"
 ---
 
-<!--
-  PLANTILLA RÁPIDA
-  ----------------
-  # Título de sección          → diapositiva separadora
-  ## Título de diapositiva      → diapositiva normal
-  $...$ y $$...$$               → matemáticas (LaTeX)
-  [@clave]                      → cita (agregar la entrada en referencias.bib)
-  ::: {.fragment} ... :::       → aparece con un clic
-  ::: {.incremental} - a - b ::: → viñetas una a una
-  ::: {.callout-note title="Pregunta"} ... :::     → caja roja de pregunta
-  ::: {.callout-tip title="Definición"} ... :::    → caja de definición
-  ::: {.callout-important title="Idea clave"} ... ::: → caja de resultado
-  :::: {.columns} ::: {.column width="50%"} ... ::: ::::  → dos columnas
-  ::: {.tarjeta} [Título]{.tarjeta-titulo} texto :::  → tarjeta (no usar ### dentro de cajas:
-                                                       Quarto lo convierte en una diapositiva)
-  ![](images/figura.png){width="80%"}              → figura
-  ::: {.fuente} Fuente: @clave. :::                → pie de figura
-  [Abrir en Colab](URL){.colab}                    → botón al notebook
-  ::: {.notes} ... :::                             → notas del orador (tecla S)
--->
 
-## Próximamente
 
 Contenido en preparación.
