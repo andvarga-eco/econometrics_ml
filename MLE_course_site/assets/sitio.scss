@@ -1,0 +1,163 @@
+/*-- scss:defaults --*/
+// Paleta tomada del logo institucional: negro + rojo Uninorte
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&display=swap');
+
+$tinta:      #16181d;
+$tinta-2:    #4a4f59;
+$tinta-3:    #8a909b;
+$rojo:       #d40000;   // un punto más oscuro que el rojo del logo (#E50000) para mejor contraste en texto
+$papel:      #fbfaf7;
+$linea:      #e6e3dc;
+
+$body-bg:    $papel;
+$body-color: $tinta;
+$link-color: $rojo;
+$primary:    $rojo;
+
+$font-family-sans-serif: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+$font-family-monospace:  "IBM Plex Mono", ui-monospace, monospace;
+$headings-font-family:   "Source Serif 4", Georgia, serif;
+$headings-font-weight:   700;
+$font-size-root:         17px;
+
+$navbar-bg:      $papel;
+$navbar-fg:      $tinta;
+$navbar-hl:      $rojo;
+$footer-bg:      $papel;
+$footer-fg:      $tinta-3;
+
+/*-- scss:rules --*/
+.navbar {
+  border-bottom: 1px solid $linea;
+  box-shadow: none;
+  .navbar-logo { max-height: 50px; }
+}
+
+#quarto-content main { max-width: 920px; margin: 0 auto; }
+
+// ---------- Portada ----------
+.hero {
+  padding: 3.5rem 0 2.5rem;
+  border-bottom: 1px solid $linea;
+  margin-bottom: 2.5rem;
+
+  .hero-kicker {
+    display: inline-block;
+    font-size: .8rem;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: $rojo;
+  }
+  h1.hero-title {
+    font-size: clamp(2.2rem, 5vw, 3.4rem);
+    line-height: 1.05;
+    margin: .4rem 0 1rem;
+    border: 0;
+    letter-spacing: -.01em;
+  }
+  p { font-size: 1.15rem; color: $tinta-2; max-width: 40em; }
+  .hero-autor { font-size: .95rem; color: $tinta-3; }
+}
+
+h2#sesiones, #sesiones > h2, h2.anchored {
+  border: 0;
+  font-size: 1.6rem;
+  margin-top: 0;
+}
+
+// ---------- Tarjetas de sesión ----------
+ol.sesiones {
+  list-style: none;
+  padding: 0;
+  margin: 1.5rem 0 3rem;
+  border-top: 1px solid $linea;
+}
+
+.sesion {
+  display: grid;
+  grid-template-columns: 4.5rem 1fr auto;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 1.4rem .25rem;
+  border-bottom: 1px solid $linea;
+  transition: background-color .15s ease;
+
+  &:hover { background: rgba($tinta, .025); }
+
+  .sesion-num {
+    font-family: $font-family-monospace;
+    font-size: 2rem;
+    font-weight: 500;
+    color: $rojo;
+    line-height: 1;
+  }
+  .sesion-titulo {
+    font-size: 1.3rem;
+    margin: 0 0 .35rem;
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+    flex-wrap: wrap;
+  }
+  .sesion-badge {
+    font-family: $font-family-sans-serif;
+    font-size: .7rem;
+    font-weight: 600;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: $tinta-3;
+    border: 1px solid $linea;
+    border-radius: 99px;
+    padding: .1rem .55rem;
+  }
+  .sesion-temas {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: .25rem .9rem;
+    color: $tinta-2;
+    font-size: .93rem;
+    li + li::before { content: "·"; margin-right: .9rem; color: $tinta-3; }
+  }
+  .sesion-acciones { display: flex; gap: .5rem; flex-wrap: wrap; justify-content: flex-end; }
+
+  &.is-proxima {
+    .sesion-num { color: $tinta-3; }
+    .sesion-titulo { color: $tinta-2; }
+  }
+}
+
+.btn-sesion {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  font-size: .88rem;
+  font-weight: 500;
+  padding: .45rem .9rem;
+  border-radius: 6px;
+  border: 1px solid $linea;
+  background: #fff;
+  color: $tinta;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: border-color .15s, color .15s, background .15s;
+
+  &:hover { border-color: $tinta; color: $tinta; }
+  &.btn-primario {
+    background: $tinta; border-color: $tinta; color: #fff;
+    &:hover { background: $rojo; border-color: $rojo; color: #fff; }
+  }
+  .is-proxima &.btn-primario { background: #fff; color: $tinta-2; border-color: $linea; &:hover { border-color: $tinta; color: $tinta; } }
+  &.is-disabled { color: $tinta-3; background: transparent; cursor: not-allowed; }
+}
+
+@media (max-width: 640px) {
+  .sesion {
+    grid-template-columns: 2.8rem 1fr;
+    .sesion-num { font-size: 1.4rem; align-self: start; }
+    .sesion-acciones { grid-column: 2; justify-content: flex-start; }
+  }
+}

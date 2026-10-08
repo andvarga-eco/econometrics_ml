@@ -1,0 +1,42 @@
+# ------------------------------------------------------------------
+# Configuración general del sitio del curso (Quarto)
+# Renderizar:   quarto render      Vista previa:   quarto preview
+# ------------------------------------------------------------------
+project:
+  type: website
+  output-dir: _site
+  # Solo se renderizan la portada y las presentaciones.
+  # Los notebooks (.ipynb) se abren en Colab y no se ejecutan aquí.
+  render:
+    - index.qmd
+    - presentaciones/**/index.qmd
+
+lang: es
+
+website:
+  title: "Econometría con Machine Learning"
+  description: "Maestría en Economía · Universidad del Norte"
+  site-url: "https://andvarga-eco.github.io/econometrics_ml/"
+  repo-url: "https://github.com/andvarga-eco/econometrics_ml"
+  favicon: assets/logo-uninorte.png
+  page-navigation: false
+  navbar:
+    logo: assets/logo-uninorte.png
+    logo-alt: "Universidad del Norte"
+    title: false
+    right:
+      - text: "Sesiones"
+        href: index.qmd#sesiones
+      - icon: github
+        href: "https://github.com/andvarga-eco/econometrics_ml"
+        aria-label: "Repositorio en GitHub"
+  page-footer:
+    left: "Andrés Vargas · Departamento de Economía · Universidad del Norte"
+    right: "Hecho con [Quarto](https://quarto.org)"
+
+format:
+  html:
+    theme: [cosmo, assets/sitio.scss]
+    toc: false
+    page-layout: full
+    smooth-scroll: true

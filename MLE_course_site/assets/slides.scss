@@ -1,0 +1,175 @@
+/*-- scss:defaults --*/
+// Tema de diapositivas del curso — paleta del logo (negro + rojo Uninorte)
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&display=swap');
+
+$tinta:   #16181d;
+$tinta-2: #4a4f59;
+$tinta-3: #8a909b;
+$rojo:    #d40000;
+$papel:   #fbfaf7;
+$linea:   #e6e3dc;
+
+$body-bg:              $papel;
+$body-color:           $tinta;
+$link-color:           $rojo;
+$selection-bg:         rgba($rojo, .15);
+
+// Colores de las cajas (callouts)
+$callout-color-note:      $rojo;
+$callout-color-tip:       $tinta;
+$callout-color-important: $tinta-2;
+
+$font-family-sans-serif: "IBM Plex Sans", system-ui, sans-serif;
+$font-family-monospace:  "IBM Plex Mono", monospace;
+$presentation-font-size-root: 32px;
+$presentation-line-height:    1.4;
+
+$presentation-heading-font:        "Source Serif 4", Georgia, serif;
+$presentation-heading-color:       $tinta;
+$presentation-heading-font-weight: 700;
+$presentation-heading-text-transform: none;
+$presentation-heading-letter-spacing: -0.01em;
+$presentation-h1-font-size: 2.2em;
+$presentation-h2-font-size: 1.45em;
+$presentation-h3-font-size: 1.1em;
+
+/*-- scss:rules --*/
+.reveal .slides { text-align: left; }
+
+// Título de cada diapositiva con una pequeña barra roja
+.reveal .slide > h2:not(:empty) {
+  padding-bottom: .25em;
+  margin-bottom: .7em;
+  position: relative;
+  &::after {
+    content: "";
+    position: absolute; left: 0; bottom: 0;
+    width: 2.2em; height: 4px;
+    background: $rojo;
+  }
+}
+
+// ---------- Portada ----------
+.reveal h1, .reveal h2, .reveal h3, .reveal h4 {
+  font-family: 'Source Serif 4', Georgia, serif;
+}
+div.reveal div.slides section.quarto-title-block {
+  text-align: left;
+  padding-left: .2em;
+  .title { font-size: 2.7em; line-height: 1.05; margin: 0 0 .25em; }
+  .subtitle { color: $tinta-2; font-family: $font-family-sans-serif; font-weight: 400; font-size: 1.15em; margin-bottom: 1.6em; }
+  .quarto-title-authors { justify-content: flex-start; margin: 0; }
+  .quarto-title-author { padding-left: 0; }
+  .quarto-title-author-name { font-weight: 600; font-size: .85em; }
+  .quarto-title-affiliation { color: $tinta-3; font-size: .7em; margin-top: .1em; }
+  &::before {
+    content: "Econometría con Machine Learning";
+    display: block;
+    color: $rojo;
+    font-size: .5em; font-weight: 600;
+    letter-spacing: .12em; text-transform: uppercase;
+    margin-bottom: 1.4em;
+    padding-top: .9em;
+    border-top: 4px solid $rojo;
+    width: max-content;
+    padding-right: .3em;
+  }
+}
+
+// ---------- Separadores de sección (líneas con un solo #) ----------
+.reveal .slides section.title-slide:not(#title-slide),
+.reveal .slides > section > section.title-slide:not(#title-slide) {
+  h1 {
+    font-size: 2.3em;
+    border-left: 10px solid $rojo;
+    padding-left: .5em;
+    line-height: 1.1;
+  }
+}
+.reveal.has-dark-background, .reveal .has-dark-background { color: #fff; }
+
+// ---------- Texto ----------
+.reveal p, .reveal li { color: $tinta; }
+.reveal .text-muted, .reveal .apagado { color: $tinta-3; }
+.reveal strong { font-weight: 600; }
+.reveal .rojo { color: $rojo; }
+
+.reveal ul li::marker { color: $rojo; }
+
+// Fuente / pie de figura
+.reveal .fuente {
+  font-size: .5em;
+  color: $tinta-3;
+  margin-top: .6em;
+}
+
+// ---------- Cajas (callouts de Quarto) ----------
+.reveal .slides section div.callout { font-size: .85em; }
+.reveal div.callout {
+  border-radius: 6px;
+  border-left-width: 5px !important;
+  box-shadow: none;
+  margin: .8em 0;
+  .callout-title-container { font-family: $font-family-sans-serif; font-weight: 600; }
+  .callout-header { border-bottom: 0; }
+  .callout-title-container { font-size: .85em; }
+  .callout-body-container { font-weight: 400; line-height: 1.4; }
+}
+.reveal div.callout-note .callout-header      { background: rgba($rojo, .08) !important; }
+.reveal div.callout-tip .callout-header       { background: rgba($tinta, .06) !important; }
+.reveal div.callout-important .callout-header { background: rgba($tinta, .05) !important; }
+.reveal div.callout-note    { border-left-color: $rojo !important; background: rgba($rojo, .045); }
+.reveal div.callout-tip     { border-left-color: $tinta !important; background: rgba($tinta, .04); }
+.reveal div.callout-important { border-left-color: $tinta-2 !important; background: rgba($tinta, .03); }
+
+// ---------- Tarjetas lado a lado ----------
+.reveal .tarjeta {
+  border: 1px solid $linea;
+  border-top: 4px solid $tinta;
+  background: #fff;
+  border-radius: 6px;
+  padding: .7em .9em;
+  height: 100%;
+  .tarjeta-titulo { display: block; font-family: 'Source Serif 4', Georgia, serif; font-weight: 700; font-size: 1.05em; margin-bottom: .3em; }
+  p { font-size: .8em; }
+  &.acento { border-top-color: $rojo; }
+}
+.reveal .respuesta {
+  display: inline-block;
+  font-size: .65em;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: #fff;
+  background: $rojo;
+  border-radius: 99px;
+  padding: .15em .7em;
+  margin-top: .4em;
+}
+
+// ---------- Botón "Abrir en Colab" ----------
+.reveal a.colab {
+  display: inline-flex;
+  align-items: center;
+  gap: .4em;
+  font-size: .7em;
+  font-weight: 500;
+  padding: .35em .9em;
+  border-radius: 6px;
+  background: $tinta;
+  color: #fff;
+  &:hover { background: $rojo; }
+}
+
+// ---------- Pie, logo, número ----------
+.reveal .footer {
+  font-size: .38em !important;
+  color: $tinta-3;
+  left: 1.2em; right: auto; text-align: left;
+}
+.reveal .slide-logo { max-height: 1.6em !important; opacity: .9; }
+.reveal .slide-number { color: $tinta-3 !important; background: transparent !important; font-family: $font-family-monospace; font-size: 14px !important; }
+.reveal .progress { color: $rojo; height: 4px; }
+
+// Referencias
+.reveal #refs { font-size: .75em; line-height: 1.35; .csl-entry { margin-bottom: .7em; } }

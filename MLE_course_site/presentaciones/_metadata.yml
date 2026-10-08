@@ -1,0 +1,37 @@
+# ------------------------------------------------------------------
+# Configuración común a TODAS las presentaciones.
+# Cada presentación solo necesita title y subtitle en su encabezado.
+# ------------------------------------------------------------------
+author:
+  - name: Andrés Vargas
+    affiliation: Departamento de Economía — Universidad del Norte
+bibliography: ../referencias.bib
+lang: es
+
+format:
+  revealjs:
+    theme: [default, ../assets/slides.scss]
+    logo: ../../assets/logo-uninorte.png
+    footer: "Econometría con Machine Learning · Uninorte"
+    slide-number: c/t
+    show-slide-number: all
+    width: 1280
+    height: 720
+    margin: 0.08
+    center: false
+    hash-type: number
+    transition: fade
+    transition-speed: fast
+    background-transition: fade
+    preview-links: auto
+    html-math-method: mathjax
+    # Menú lateral con índice de diapositivas (tecla M)
+    menu:
+      side: left
+      numbers: true
+    # Pizarra para escribir sobre las diapositivas (teclas B y C)
+    chalkboard:
+      buttons: false
+    # Exportar a PDF: abrir la presentación, presionar E y luego Ctrl+P
+    pdf-separate-fragments: false
+    link-external-newwindow: true

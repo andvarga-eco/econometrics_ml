@@ -1,0 +1,27 @@
+---
+pagetitle: "Econometría con Machine Learning"
+listing:
+  id: listado-sesiones
+  contents: sesiones.yml
+  template: assets/sesiones.ejs
+  sort: "numero"
+  filter-ui: false
+  sort-ui: false
+---
+
+::: {.hero}
+[Maestría en Economía · Periodo 202630]{.hero-kicker}
+
+# Econometría con Machine Learning {.hero-title}
+
+Cuándo un problema es de predicción y cuándo de estimación, y cómo las herramientas de *machine learning* pueden apoyar la inferencia causal.
+
+[Andrés Vargas · Departamento de Economía · Universidad del Norte]{.hero-autor}
+:::
+
+## Sesiones {#sesiones}
+
+Cada sesión tiene sus diapositivas y, cuando aplica, un notebook para trabajar en Google Colab.
+
+:::{#listado-sesiones}
+:::

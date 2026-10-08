@@ -1,0 +1,20 @@
+```{=html}
+<!-- Plantilla de tarjetas de sesión. Lee los datos de sesiones.yml.
+     No es necesario editar este archivo para agregar clases. -->
+<ol class="sesiones list">
+<% for (const item of items) { const proxima = item.estado === 'proxima'; %>
+<li class="sesion <%= proxima ? 'is-proxima' : '' %>" <%= metadataAttrs(item) %>>
+<span class="sesion-num"><%= String(item.numero).padStart(2, '0') %></span>
+<div class="sesion-cuerpo">
+<h3 class="sesion-titulo listing-title"><%= item.title %><% if (proxima) { %> <span class="sesion-badge">Próximamente</span><% } %></h3>
+<% if (item.temas && item.temas.length) { %><ul class="sesion-temas"><% for (const t of item.temas) { %><li><%= t %></li><% } %></ul><% } %>
+</div>
+<div class="sesion-acciones">
+<% if (item.slides) { %><a class="btn-sesion btn-primario" href="<%- item.slides %>"><i class="bi bi-easel2" aria-hidden="true"></i> Diapositivas</a><% } %>
+<% if (item.colab) { %><a class="btn-sesion" href="<%- item.colab %>" target="_blank" rel="noopener"><i class="bi bi-journal-code" aria-hidden="true"></i> Colab</a><% } else { %><span class="btn-sesion is-disabled" title="Notebook aún no disponible"><i class="bi bi-journal-code" aria-hidden="true"></i> Colab</span><% } %>
+<% if (item.lecturas) { %><a class="btn-sesion" href="<%- item.lecturas %>" target="_blank" rel="noopener"><i class="bi bi-book" aria-hidden="true"></i> Lecturas</a><% } %>
+</div>
+</li>
+<% } %>
+</ol>
+```

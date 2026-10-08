@@ -1,0 +1,35 @@
+# ------------------------------------------------------------------
+# Listado de sesiones del curso.
+# Para agregar una clase, copia un bloque y cambia los campos.
+#   numero:  número de la sesión
+#   title:   título que aparece en la tarjeta
+#   temas:   2–4 temas clave
+#   slides:  ruta a la presentación (déjalo vacío si aún no existe)
+#   colab:   enlace al notebook en Colab (opcional)
+#   lecturas: enlace a lecturas (opcional)
+#   estado:  publicada | proxima
+# ------------------------------------------------------------------
+- numero: 0
+  title: "Introducción"
+  temas: ["Predicción vs. estimación", "Predicción y causalidad", "Sesgo y varianza"]
+  slides: presentaciones/introduccion/index.html
+  colab: ""
+  estado: publicada
+
+- numero: 1
+  title: "Regresión lineal y alta dimensionalidad"
+  temas: [MCO falla en alta dimensionalidad]   # agrega aquí los temas cuando prepares la sesión
+  slides: presentaciones/mco_dimensionalidad/index.html
+  # Patrón de enlace a Colab:
+  # colab: "https://colab.research.google.com/github/andvarga-eco/econometrics_ml/blob/main/notebooks/NOMBRE.ipynb"
+  colab: ""
+  estado: proxima
+
+- numero: 2
+  title: "Inferencia causal"
+  temas: []   # agrega aquí los temas cuando prepares la sesión
+  slides: presentaciones/inferencia-causal/index.html
+  # Patrón de enlace a Colab:
+  # colab: "https://colab.research.google.com/github/andvarga-eco/econometrics_ml/blob/main/notebooks/NOMBRE.ipynb"
+  colab: ""
+  estado: proxima
