@@ -23,7 +23,7 @@
   # Patrón de enlace a Colab:
   # colab: "https://colab.research.google.com/github/andvarga-eco/econometrics_ml/blob/main/notebooks/NOMBRE.ipynb"
   colab: ""
-  estado: proxima
+  estado: publicada
 
 - numero: 2
   title: "Inferencia causal"
