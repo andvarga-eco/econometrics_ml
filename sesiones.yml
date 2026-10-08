@@ -21,8 +21,7 @@
   temas: [MCO falla en alta dimensionalidad]   # agrega aquí los temas cuando prepares la sesión
   slides: presentaciones/mco_dimensionalidad/index.html
   # Patrón de enlace a Colab:
-  # colab: "https://colab.research.google.com/github/andvarga-eco/econometrics_ml/blob/main/notebooks/NOMBRE.ipynb"
-  colab: ""
+  colab: "https://colab.research.google.com/github/andvarga-eco/econometrics_ml/blob/main/notebooks/Econometria_MsC/wage_predict.ipynb"
   estado: publicada
 
 - numero: 2
