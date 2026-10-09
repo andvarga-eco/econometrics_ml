@@ -12,5 +12,12 @@
     "title": "Inferencia causal",
     "section": "Referencias",
     "text": "Referencias\n\n\nChernozhukov, Victor, Christian Hansen, Nathan Kallus, Martin Spindler, y Vasilis Syrgkanis. 2024. «Applied causal inference powered by ML and AI». arXiv preprint arXiv:2403.02467 7.\n\n\nCunningham, Scott. 2026. Causal Inference: The Remix. Yale University Press."
+  },
+  {
+    "objectID": "presentaciones/Lasso/index.html#references",
+    "href": "presentaciones/Lasso/index.html#references",
+    "title": "LASSO",
+    "section": "Referencias",
+    "text": "Referencias\n\n\nTibshirani, Robert. 1996. «Regression shrinkage and selection via the lasso». Journal of the Royal Statistical Society Series B: Statistical Methodology 58 (1): 267-88."
   }
 ]
