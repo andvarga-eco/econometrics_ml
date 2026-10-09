@@ -101,7 +101,7 @@ Luego, esta cantidad corresponde al efecto causal, ATE, si los términos de sesg
 
 ## Aleatorización e independencia
 
-Decimos que el tratamiento es independiente de los resultados potenciales si la asignación a tratamiento no tiene nada que ver con los resultados potenciales. La aleatorización es un mecanismo, el mejor.
+Tratamiento es independiente de los resultados potenciales. Aleatorización lo garantiza
 
 $$
 (Y_i(1),Y_i(0))\perp  D_i
@@ -118,7 +118,7 @@ De manera similar se puede mostrar que bajo asignación aleatoria $ATT=ATU$, lue
 
 ## Estimación usando regresión
 
-Sea $W$ un vector de covariables pre-determinadas (son previas a la asignación), y la asignación a tratamiento es independiente de ellas y los resultados potenciales, bajo el supuesto de linealidad
+Sea $X$ un vector de covariables pre-determinadas (son previas a la asignación), y la asignación a tratamiento es independiente de ellas y los resultados potenciales, bajo el supuesto de linealidad
 
 $$
 Y=\alpha D+\beta'X+\epsilon; \quad E[\epsilon\mid D,X]=0
@@ -126,9 +126,56 @@ $$
 Por tanto
 
 $$
-E[Y|D,W]=\alpha D+\beta'X
+E[Y|D,X]=\alpha D+\beta'X
 $$
-donde $X=(1,W)$. En esta formulación $\alpha=ATE$
+donde $X=(1,W)$
+
+## Estimación usando regresión
+
+Asumimos que las covariables están centradas, $E(X)=0$. Bajo independencia del tratamiento con el resultado potencial y $X$, $(Y_i(1),Y_i(0),X)\perp  D_i$ tenemos balance de covariables, es decir
+
+$$
+E[X|D=1]=E[X|D=0]
+$$
+
+luego
+
+$$
+\begin{aligned}
+E[Y(0)]&=E[E[Y|D=0,X]]=\beta_1\\
+E[Y(1)]&=E[E[Y|D=1,X]]=\beta_1+\alpha
+\end{aligned}
+$$
+
+
+De donde el ATE, $\delta=E[Y(1)]-E[Y(0)]$, es $\alpha$
+
+## El papel de las covariables
+
+- Mejora la precisión en la estimación de $\alpha$, si el modelos es aditivo
+- Usar interacciones para mejorar precisión y explorar heterogeneidades.
+
+$$
+E[Y|D,X]=(\alpha_1+\alpha_2X)D+\beta X
+$$
+Definimos el ATE condicional, CATE, como $\delta(X)=E[Y(1)|X]-E[Y(0)|X]$
+
+$$
+\delta(X)=E[Y|D=1,X]-E[Y|D=0,X]=\alpha_1+\alpha_2X
+$$
+y El ATE 
+
+$$
+E[\delta(X)]=\alpha_1+\alpha_2E[X]=\alpha_1
+$$
+
+## Ejercicio
+
+Desarrolle detalladamente (sin la sección Lasso) el notebook Reemployment Bonus RCT en [@chernozhukov2024applied](https://causalml-book.org/)
+
+1. Explique el procedimiento de covariance balance check ¿Por qué las condiciones fallan?
+2. Explique detalladamente el procedimiento de la regresión interactiva ¿Por qué hay que corregir los errores estándar?
+
 
 ## Referencias
 

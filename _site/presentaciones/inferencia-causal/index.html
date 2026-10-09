@@ -269,7 +269,7 @@ SDO = \frac{1}{N_T} \sum_{i=1}^{n} \left( y_i \mid d_i = 1 \right) - \frac{1}{N_
 </section>
 <section class="slide level2">
 <h2>Aleatorización e independencia</h2>
-<p>Decimos que el tratamiento es independiente de los resultados potenciales si la asignación a tratamiento no tiene nada que ver con los resultados potenciales. La aleatorización es un mecanismo, el mejor.</p>
+<p>Tratamiento es independiente de los resultados potenciales. Aleatorización lo garantiza</p>
 <p><span class="math display">\[
 (Y_i(1),Y_i(0))\perp  D_i
 \]</span> Por lo tanto <span class="math display">\[
@@ -280,17 +280,59 @@ E[Y(0) \mid D=1] - E[Y(0) \mid D=0]=E[Y(0)]-E[Y(0)]=0
 </section>
 <section class="slide level2">
 <h2>Estimación usando regresión</h2>
-<p>Sea <span class="math inline">\(W\)</span> un vector de covariables pre-determinadas (son previas a la asignación), y la asignación a tratamiento es independiente de ellas y los resultados potenciales, bajo el supuesto de linealidad</p>
+<p>Sea <span class="math inline">\(X\)</span> un vector de covariables pre-determinadas (son previas a la asignación), y la asignación a tratamiento es independiente de ellas y los resultados potenciales, bajo el supuesto de linealidad</p>
 <p><span class="math display">\[
 Y=\alpha D+\beta'X+\epsilon; \quad E[\epsilon\mid D,X]=0
 \]</span> Por tanto</p>
 <p><span class="math display">\[
-E[Y|D,W]=\alpha D+\beta'X
-\]</span> donde <span class="math inline">\(X=(1,W)\)</span>. En esta formulación <span class="math inline">\(\alpha=ATE\)</span></p>
+E[Y|D,X]=\alpha D+\beta'X
+\]</span> donde <span class="math inline">\(X=(1,W)\)</span></p>
+</section>
+<section class="slide level2">
+<h2>Estimación usando regresión</h2>
+<p>Asumimos que las covariables están centradas, <span class="math inline">\(E(X)=0\)</span>. Bajo independencia del tratamiento con el resultado potencial y <span class="math inline">\(X\)</span>, <span class="math inline">\((Y_i(1),Y_i(0),X)\perp  D_i\)</span> tenemos balance de covariables, es decir</p>
+<p><span class="math display">\[
+E[X|D=1]=E[X|D=0]
+\]</span></p>
+<p>luego</p>
+<p><span class="math display">\[
+\begin{aligned}
+E[Y(0)]&amp;=E[E[Y|D=0,X]]=\beta_1\\
+E[Y(1)]&amp;=E[E[Y|D=1,X]]=\beta_1+\alpha
+\end{aligned}
+\]</span></p>
+<p>De donde el ATE, <span class="math inline">\(\delta=E[Y(1)]-E[Y(0)]\)</span>, es <span class="math inline">\(\alpha\)</span></p>
+</section>
+<section class="slide level2">
+<h2>El papel de las covariables</h2>
+<ul>
+<li>Mejora la precisión en la estimación de <span class="math inline">\(\alpha\)</span>, si el modelos es aditivo</li>
+<li>Usar interacciones para mejorar precisión y explorar heterogeneidades.</li>
+</ul>
+<p><span class="math display">\[
+E[Y|D,X]=(\alpha_1+\alpha_2X)D+\beta X
+\]</span> Definimos el ATE condicional, CATE, como <span class="math inline">\(\delta(X)=E[Y(1)|X]-E[Y(0)|X]\)</span></p>
+<p><span class="math display">\[
+\delta(X)=E[Y|D=1,X]-E[Y|D=0,X]=\alpha_1+\alpha_2X
+\]</span> y El ATE</p>
+<p><span class="math display">\[
+E[\delta(X)]=\alpha_1+\alpha_2E[X]=\alpha_1
+\]</span></p>
+</section>
+<section class="slide level2">
+<h2>Ejercicio</h2>
+<p>Desarrolle detalladamente (sin la sección Lasso) el notebook Reemployment Bonus RCT en <a href="https://causalml-book.org/"><span class="citation" data-cites="chernozhukov2024applied">Chernozhukov et&nbsp;al. (<span>2024</span>)</span></a></p>
+<ol type="1">
+<li>Explique el procedimiento de covariance balance check ¿Por qué las condiciones fallan?</li>
+<li>Explique detalladamente el procedimiento de la regresión interactiva ¿Por qué hay que corregir los errores estándar?</li>
+</ol>
 </section>
 <section class="slide level2 smaller scrollable" id="references">
 <h2>Referencias</h2>
 <div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-chernozhukov2024applied" class="csl-entry" role="listitem">
+Chernozhukov, Victor, Christian Hansen, Nathan Kallus, Martin Spindler, y Vasilis Syrgkanis. 2024. <span>«Applied causal inference powered by ML and AI»</span>. <em>arXiv preprint arXiv:2403.02467</em> 7.
+</div>
 <div id="ref-cunningham2026causal" class="csl-entry" role="listitem">
 Cunningham, Scott. 2026. <em>Causal Inference: The Remix</em>. Yale University Press.
 </div>
