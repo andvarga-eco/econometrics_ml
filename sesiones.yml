@@ -25,7 +25,7 @@
 
 - numero: 2
   title: "Inferencia causal"
-  temas: []   # agrega aquí los temas cuando prepares la sesión
+  temas: [¿Qué es? ¿Cuáles son las métricas?]   # agrega aquí los temas cuando prepares la sesión
   slides: presentaciones/inferencia-causal/index.html
-  colab: ""
-  estado: proxima
+  colab: "https://colab.research.google.com/github/andvarga-eco/econometrics_ml/blob/main/notebooks/wgap_informal_causal.ipynb"
+  estado: publicada
