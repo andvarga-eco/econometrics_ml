@@ -30,7 +30,7 @@
   colab: "https://colab.research.google.com/github/andvarga-eco/econometrics_ml/blob/main/notebooks/wgap_informal_causal.ipynb"
   estado: publicada
 
-- numero: 2
+- numero: 3
   title: "Inferencia predictiva en alta dimensionalidad"
   temas: [Regularización, Lasso]   # agrega aquí los temas cuando prepares la sesión
   slides: presentaciones/Lasso/index.html
