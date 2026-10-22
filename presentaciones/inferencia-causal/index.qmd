@@ -27,7 +27,7 @@ $$
 \Delta_i=Y_i(1)-Y_i(0)
 $$
 
-Esto no se puede obtener directamente. Solo observamos uno de los dos resultados. Es el problema fundamental de la inferencia causal. Nos enfocamos en hacer inferencias sobre la diferencia a nivel poblacional. Definimos los siguientes parámetros
+No se obtiene directamente. Nos enfocamos en hacer inferencias sobre la diferencia a nivel poblacional. Definimos los siguientes parámetros
 
 :::: {.columns}
 ::: {.column width="33%"}
