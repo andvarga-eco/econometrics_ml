@@ -79,6 +79,9 @@ $$
 Los estimadores encogen los coeficientes en relación con MCO. Lasso, además, lleva algunos a cero.
 
 ## LASSO
+![](images/lasso_mse_contornos.png){fig-align="center" width="70%"}
+
+## LASSO
 
 - Funciona mejor cuando pocos regresores tienen $\beta_j\neq 0$ y la mayoría $\beta_j=0$
 - $\hat\beta_j=0$ si $\Big|\dfrac{\partial}{\partial \beta_j}\sum_i\Big(y_i-\sum_k\beta_kx_{ik}\Big)^2\Big|<\lambda$. Es decir, el beneficio marginal en la predicción debe ser mayor que la penalidad

@@ -246,6 +246,10 @@ MSE(\tilde{\theta})&amp;=E[(\tilde{\theta}-\theta)^2]\\
 </section>
 <section class="slide level2">
 <h2>LASSO</h2>
+
+<img data-src="images/lasso_mse_contornos.png" class="quarto-figure quarto-figure-center r-stretch" style="width:70.0%"></section>
+<section class="slide level2">
+<h2>LASSO</h2>
 <ul>
 <li>Funciona mejor cuando pocos regresores tienen <span class="math inline">\(\beta_j\neq 0\)</span> y la mayoría <span class="math inline">\(\beta_j=0\)</span></li>
 <li><span class="math inline">\(\hat\beta_j=0\)</span> si <span class="math inline">\(\Big|\dfrac{\partial}{\partial \beta_j}\sum_i\Big(y_i-\sum_k\beta_kx_{ik}\Big)^2\Big|&lt;\lambda\)</span>. Es decir, el beneficio marginal en la predicción debe ser mayor que la penalidad</li>
@@ -307,6 +311,16 @@ MSE(\tilde{\theta})&amp;=E[(\tilde{\theta}-\theta)^2]\\
 <p><span class="math display">\[
 CV_K=\dfrac{1}{K}\sum_{j=1}^K MSE_j
 \]</span></p>
+</section>
+<section class="slide level2">
+<h2>MCO Post-Lasso</h2>
+<p>Usar los regresores seleccionados por Lasso y volver a estimar el modelo por MCO. Este procedimiento tiende a deshacer el shrinkage</p>
+<p><span class="math display">\[
+\begin{aligned}
+\tilde{\beta} \in \arg\min_{b \in \mathbb{R}^p} \sum_i \left( Y_i - b' X_i \right)^2 \quad &amp;\text{such that} \\
+b_j = 0 \text{ if } \hat{\beta}_j = 0 \text{ for each } j&amp;,
+\end{aligned}
+\]</span> donde <span class="math inline">\(\hat\beta\)</span> es el estimador de Lasso</p>
 </section>
 <section class="slide level2 smaller scrollable" id="references">
 <h2>Referencias</h2>
