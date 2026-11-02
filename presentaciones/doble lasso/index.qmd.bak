@@ -1,0 +1,69 @@
+---
+title: "Doble Lasso"
+subtitle: "Inferencia"
+---
+
+# Introducción
+
+## Motivación
+Considere el siguiente modelo
+
+$$
+Y=\alpha D+\beta'W+\epsilon
+$$
+
+- $\alpha$ es el parámetro de interés
+
+- $W$ es un vector de variables de control
+
+- ¿Cómo elegimos las variables del vector $W$?
+
+## Motivación
+
+::: {.callout-note title="Pregunta"}
+Si $\alpha$ es el parámetro de interés ¿Por qué incluir $W$?
+:::
+
+- Condición de exogeneidad para inferencia causal
+
+Una buena variable de control debe cumplir dos condiciones
+
+1. Relevancia: predice la variable de interés
+2. Confunde: está correlacionada con la variable de interés
+
+## Motivación
+
+Omitir una covariable que cumple las dos condiciones invalida la inferencia causal sobre $\alpha$
+
+::: {.callout-note title="Pregunta"}
+¿Qué pasa si agrego una variable que no es una variable de control?
+:::
+
+- No satisface relevancia: deteriora la precisión de la estimación
+
+- Satifasce relevancia: mejora la precisión de la estimación
+
+## Motivación
+
+Dos objetivos al seleccionar $W$: condición de exogeneidad, precisión de la estimación. Dos retos a tener en cuenta
+
+- Inferencias post-selección
+
+- Dimensionalidad
+
+## El problema de la inferencia post-selección
+
+# El estimador doble Lasso
+
+## El procedimiento de doble Lasso
+
+## El procedimiento de doble Lasso
+
+## Neyman orthogonality
+
+## Inferencia post-selección
+
+## Referencias
+
+::: {#refs}
+:::
