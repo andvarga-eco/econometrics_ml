@@ -40,6 +40,6 @@
 - numero: 4
   title: "Doble Lasso e inferencia post-selección"
   temas: [Selección de controles, alta dimensionalidad]   # agrega aquí los temas cuando prepares la sesión
-  slides: presentaciones/dloble lasso/index.html
+  slides: presentaciones/doble lasso/index.html
   colab: "https://colab.research.google.com/github/andvarga-eco/econometrics_ml/blob/main/notebooks/wage_gap_doble lasso.ipynb"
   estado: publicada
