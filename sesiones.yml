@@ -43,3 +43,10 @@
   slides: presentaciones/doble lasso/index.html
   colab: "https://colab.research.google.com/github/andvarga-eco/econometrics_ml/blob/main/notebooks/wage_gap_doble lasso.ipynb"
   estado: publicada
+
+- numero: 5
+  title: "Predicción con métodos no lineales"
+  temas: [Árbol de regresión, bosque aleatorio]   # agrega aquí los temas cuando prepares la sesión
+  slides: presentaciones/random forest/index.html
+  colab: "https://colab.research.google.com/github/andvarga-eco/econometrics_ml/blob/main/notebooks/randomForest.ipynb"
+  estado: publicada
