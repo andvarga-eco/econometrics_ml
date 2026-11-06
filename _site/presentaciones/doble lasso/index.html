@@ -273,6 +273,28 @@ Y=\alpha D+\beta'W+\epsilon
 
 </section>
 <section class="slide level2">
+<h2>El sesgo de regularización</h2>
+<p>Sabemos que Lasso selecciona variables ¿Podemos usar esta selección para estimar los parámetros vía MCO?</p>
+<p>Considere que el modelo</p>
+<p><span class="math display">\[
+Y=\alpha D+\beta'W+\epsilon
+\]</span></p>
+<p>Queremos estimar el efecto de <span class="math inline">\(D\)</span> sobre <span class="math inline">\(Y\)</span>. Suponga que en <span class="math inline">\(W\)</span> <span class="math inline">\(p&gt;n\)</span>. Considere el siguiente procedimiento</p>
+<ol type="1">
+<li>Estime por Lasso, forzando a que <span class="math inline">\(D\)</span> se mantenga, sacándola de la ecuación de penalización.</li>
+<li>Estime por MCO la regresión de <span class="math inline">\(Y\)</span> sobre <span class="math inline">\(D\)</span> y las variables del vector <span class="math inline">\(W\)</span> seleccionadas por Lasso</li>
+</ol>
+</section>
+<section class="slide level2">
+<h2>El sesgo de regularización</h2>
+<p>Note que en la regresión del paso 2., las variables que usa son las que Lasso seleccionó. Esto implica</p>
+<ul>
+<li>La selección del paso 1 escoge variables que tienen impacto alto en <span class="math inline">\(Y\)</span></li>
+<li>Variables que tienen bajo impacto en <span class="math inline">\(Y\)</span> y están relacionadas con <span class="math inline">\(D\)</span> se excluyen</li>
+<li>Estas variables se convierten en <em>confounding</em>. Se configura sesgo por variable omitida</li>
+</ul>
+</section>
+<section class="slide level2">
 <h2>Partialling-out</h2>
 <p><span class="math display">\[
 Y=\alpha D + \beta'W+\epsilon

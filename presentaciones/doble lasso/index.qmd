@@ -78,6 +78,29 @@ Densidad de $\sqrt{n}(\tilde\alpha-\alpha)$ en muestra finita con $n=100$, $\rho
 
 # El estimador doble Lasso
 
+## El sesgo de regularización
+
+Sabemos que Lasso selecciona variables ¿Podemos usar esta selección para estimar los parámetros vía MCO?
+
+Considere que el modelo
+
+$$
+Y=\alpha D+\beta'W+\epsilon
+$$
+
+Queremos estimar el efecto de $D$ sobre $Y$. Suponga que en $W$ $p>n$. Considere el siguiente procedimiento
+
+1. Estime por Lasso, forzando a que $D$ se mantenga, sacándola de la ecuación de penalización. 
+2. Estime por MCO la regresión de $Y$ sobre $D$ y las variables del vector $W$ seleccionadas por Lasso
+
+## El sesgo de regularización
+
+Note que en la regresión del paso 2., las variables que usa son las que Lasso seleccionó. Esto implica 
+
+- La selección del paso 1 escoge variables que tienen impacto alto en $Y$
+- Variables que tienen bajo impacto en $Y$ y están relacionadas con $D$ se excluyen
+- Estas variables se convierten en *confounding*. Se configura sesgo por variable omitida
+
 ## Partialling-out
 
 $$
@@ -122,6 +145,7 @@ $$
 
 Se usan los resultados estándar de MCO, tratando los residuales como observados. Con $\hat\epsilon_i=\check Y_i-\hat\alpha\check D_i$, el error estándar robusto es $\sqrt{\hat V/n}$, con $\hat V=(\mathbb{E}_n[\check D^2])^{-1}\mathbb{E}_n[\check D^2\hat\epsilon^2](\mathbb{E}_n[\check D^2])^{-1}$
 :::
+
 
 ## El procedimiento de doble Lasso {.smaller}
 
