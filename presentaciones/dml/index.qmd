@@ -1,0 +1,193 @@
+---
+title: "Double/debiased machine learning (DML)"
+subtitle: "Inferencia con parámetros fastidiosos de alta dimensionalidad"
+---
+
+# Introducción
+
+## Introducción
+
+El propósito de DML es reducir el impacto de los **parámetros fastidiosos** (*nuisance*) en la estimación del parámetro de interés
+
+Siguiendo a @ahrens2025introduction, $\theta_0$ es nuestro parámetro de interés y es la solución a la condición de momentos
+
+$$
+E[m(W,\theta_0,\eta_0)]=0
+$$
+
+- $m$ es la función que especificamos, $W$ son las variables observables y $\eta_0$ son los parámetros fastidiosos
+- $\eta_0$ captura objetos auxiliares, como la relación entre los controles y la variable de resultado
+
+
+# DML en el modelo lineal parcial
+
+## El modelo lineal parcial
+
+Considere el modelo parcial lineal (PLM)
+
+$$
+Y=\beta D+g(X)+\epsilon;\quad E[\epsilon\mid D,X]=0
+$$
+
+- $Y$ es la variable de resultado, $D$ el regresor de interés y $X$ un vector de controles de alta dimensionalidad
+- $g(X)$ puede ser completamente no lineal
+
+::: {.callout-note title="Objetivo"}
+Estimar $\beta$ (APE/ATE)
+:::
+
+## Partialling-out
+
+Para la variable aleatoria $V$ definimos
+
+$$
+\tilde V=V-E[V\mid X]
+$$
+
+Definimos
+
+$$
+\ell(X):=E[Y\mid X],\qquad m(X):=E[D\mid X]
+$$
+
+Al hacer $Y-\ell(X)$ y $D-m(X)$ obtenemos
+
+$$
+\tilde Y=\beta\tilde D+\epsilon;\quad E[\epsilon\tilde D]=0
+$$
+
+- Podemos estimar $\beta$ con un procedimiento de *partialling-out*
+
+## Partialling-out
+
+::: {.callout-important title="Teorema"}
+Suponga que $X$, $Y$, $D$ tienen segundos momentos acotados. El coeficiente de la regresión poblacional, $\beta$, puede ser recuperado de la regresión poblacional de $\tilde Y$ sobre $\tilde D$
+
+$$
+\beta:=\{b:E[(\tilde Y-b\tilde D)\tilde D]=0\}
+$$
+:::
+
+- Generaliza Frisch-Waugh-Lovell: $\ell(X)$ y $m(X)$ ya no tienen que ser lineales
+- Podemos estimar $\ell(X)$ y $m(X)$ con cualquier método de ML (Lasso, bosques aleatorios, redes neuronales, ...)
+
+## Dos componentes esenciales
+
+La estimación de $\beta$ requiere que el sobreajuste en la estimación de las expectativas condicionales $\ell(X)$ y $m(X)$ no contamine la estimación del parámetro de interés. Se requieren dos componentes
+
+:::: {.columns}
+::: {.column width="50%"}
+::: {.tarjeta}
+[1. Neyman orthogonality]{.tarjeta-titulo}
+
+Asegura que los errores en la estimación de $\eta_0$ no impacten, a primer orden, el parámetro de interés
+:::
+:::
+::: {.column width="50%"}
+::: {.tarjeta .acento}
+[2. Cross-fitting]{.tarjeta-titulo}
+
+Evita el sesgo de sobreajuste. El error en la estimación de $\eta_0$ está estrechamente relacionado con los datos usados para construir el estimador *plug-in*
+:::
+:::
+::::
+
+## Cross-fitting
+
+*Cross-fitting* es un procedimiento análogo a *cross-validation*
+
+- Partimos los datos en $K$ *folds* aleatorios del mismo tamaño
+- Para cada fold $k$, se estiman $\hat\ell_{-k}(X)$ y $\hat m_{-k}(X)$ con las observaciones **que no están** en el fold $k$, y se obtienen los valores predichos para las observaciones del fold $k$
+- Con estos valores predichos se calcula $\check Y_i=Y_i-\hat\ell_{-k}(X_i)$. Se hace lo mismo para $D$: $\check D_i=D_i-\hat m_{-k}(X_i)$
+
+Cada observación recibe exactamente una predicción, hecha por un modelo que **no la usó** para entrenarse
+
+## Cross-fitting: el algoritmo paso a paso {.smaller}
+
+:::: {.columns}
+::: {.column width="55%"}
+1. **Partición.** Divida aleatoriamente $\{1,\dots,n\}$ en $K$ folds $I_1,\dots,I_K$ de tamaño $n/K$ (típicamente $K=5$ o $K=10$)
+2. **Entrenamiento fuera del fold.** Para cada $k$, use la muestra complementaria $I_k^c$ para estimar $\hat\eta_{-k}=(\hat\ell_{-k},\hat m_{-k})$ con el método de ML elegido
+3. **Predicción dentro del fold.** Para $i\in I_k$ calcule los residuales
+$$
+\check Y_i=Y_i-\hat\ell_{-k}(X_i),\qquad \check D_i=D_i-\hat m_{-k}(X_i)
+$$
+4. **Rotación.** Repita 2–3 para $k=1,\dots,K$, de modo que cada observación tenga su residual *fuera de muestra*
+5. **Estimación.** Con todos los residuales, regresión por MCO de $\check Y_i$ sobre $\check D_i$
+$$
+\hat\beta=\big(\mathbb{E}_n[\check D^2]\big)^{-1}\mathbb{E}_n[\check D\check Y]
+$$
+:::
+::: {.column width="45%"}
+```{=html}
+<table style="width:100%; border-collapse:separate; border-spacing:4px; font-size:.75em; text-align:center; margin-top:.4em;">
+  <tr style="color:#4a4f59;"><td></td><td>I<sub>1</sub></td><td>I<sub>2</sub></td><td>I<sub>3</sub></td><td>I<sub>4</sub></td><td>I<sub>5</sub></td></tr>
+  <tr><td style="color:#4a4f59;">k=1</td><td style="background:#d40000;color:#fff;border-radius:4px;">predice</td><td style="background:#e6e3dc;border-radius:4px;">entrena</td><td style="background:#e6e3dc;border-radius:4px;">entrena</td><td style="background:#e6e3dc;border-radius:4px;">entrena</td><td style="background:#e6e3dc;border-radius:4px;">entrena</td></tr>
+  <tr><td style="color:#4a4f59;">k=2</td><td style="background:#e6e3dc;border-radius:4px;">entrena</td><td style="background:#d40000;color:#fff;border-radius:4px;">predice</td><td style="background:#e6e3dc;border-radius:4px;">entrena</td><td style="background:#e6e3dc;border-radius:4px;">entrena</td><td style="background:#e6e3dc;border-radius:4px;">entrena</td></tr>
+  <tr><td style="color:#4a4f59;">k=3</td><td style="background:#e6e3dc;border-radius:4px;">entrena</td><td style="background:#e6e3dc;border-radius:4px;">entrena</td><td style="background:#d40000;color:#fff;border-radius:4px;">predice</td><td style="background:#e6e3dc;border-radius:4px;">entrena</td><td style="background:#e6e3dc;border-radius:4px;">entrena</td></tr>
+  <tr><td style="color:#4a4f59;">k=4</td><td style="background:#e6e3dc;border-radius:4px;">entrena</td><td style="background:#e6e3dc;border-radius:4px;">entrena</td><td style="background:#e6e3dc;border-radius:4px;">entrena</td><td style="background:#d40000;color:#fff;border-radius:4px;">predice</td><td style="background:#e6e3dc;border-radius:4px;">entrena</td></tr>
+  <tr><td style="color:#4a4f59;">k=5</td><td style="background:#e6e3dc;border-radius:4px;">entrena</td><td style="background:#e6e3dc;border-radius:4px;">entrena</td><td style="background:#e6e3dc;border-radius:4px;">entrena</td><td style="background:#e6e3dc;border-radius:4px;">entrena</td><td style="background:#d40000;color:#fff;border-radius:4px;">predice</td></tr>
+</table>
+```
+
+::: {style="font-size: .8em; color: #4a4f59; margin-top:.6em;"}
+Ejemplo con $K=5$: en cada ronda se estiman $\hat\ell_{-k}$ y $\hat m_{-k}$ con 4/5 de la muestra y se predice sobre el fold restante. Al final, los $K$ bloques rojos cubren toda la muestra
+:::
+
+::: {.callout-tip title="Diferencia con cross-validation"}
+CV usa los folds para **elegir hiperparámetros**; cross-fitting los usa para **construir residuales fuera de muestra**. Ambos pueden combinarse: la CV se hace dentro de $I_k^c$
+:::
+:::
+::::
+
+## Cross-fitting: ¿por qué funciona? {.smaller}
+
+Al expandir el estimador alrededor de los verdaderos $\eta_0$ aparecen términos de error que dependen de $\hat\eta$ [@chernozhukov2024applied; @ahrens2025introduction]. Uno de ellos tiene la forma
+
+$$
+\frac{1}{\sqrt n}\sum_{i}\big(\hat m(X_i)-m(X_i)\big)\,\epsilon_i
+$$
+
+:::: {.columns}
+::: {.column width="50%"}
+::: {.tarjeta}
+[Sin cross-fitting]{.tarjeta-titulo}
+
+Si $\hat m$ se estima con las mismas observaciones, el modelo de ML puede "aprender" el ruido: $\hat m(X_i)-m(X_i)$ queda correlacionado con $\epsilon_i$. El término no se desvanece $\Rightarrow$ **sesgo por sobreajuste** y distribución de $\hat\beta$ no centrada en $\beta$
+:::
+:::
+::: {.column width="50%"}
+::: {.tarjeta .acento}
+[Con cross-fitting]{.tarjeta-titulo}
+
+Para $i\in I_k$, $\hat m_{-k}$ es independiente de $(X_i,\epsilon_i)$. Condicional a $I_k^c$, el término tiene media cero y varianza $\propto\|\hat m_{-k}-m\|^2\to0$. Basta que el ML sea consistente; no se requieren condiciones de complejidad (Donsker) sobre el estimador
+:::
+:::
+::::
+
+::: {.fragment}
+- **Eficiencia:** a diferencia de *sample splitting*, rota los papeles y usa las $n$ observaciones en la estimación final de $\beta$
+- **Aleatoriedad:** $\hat\beta$ depende del sorteo de folds; se repite $R$ veces y se reporta la **mediana** de los $\hat\beta_r$
+- Con Neyman orthogonality, $\sqrt n(\hat\beta-\beta)\xrightarrow{d}N(0,V)$ 
+:::
+
+## El estimador DML
+
+Sea $\psi$ una función *score* Neyman ortogonal, $\{I_k\}_{k=1}^K$ la partición aleatoria de los individuos $\{1,\dots,n\}$ en $K$ submuestras del mismo tamaño y $\{\hat\eta_{-k}\}_{k=1}^K$ los parámetros fastidiosos obtenidos por cross-fitting. El estimador $\hat\theta$ resuelve
+
+$$
+\frac{1}{n}\sum_{k=1}^{K}\sum_{i\in I_k}\psi(W_i;\hat\theta,\hat\eta_{-k})=0
+$$
+
+En el caso de nuestro PLM, $\hat\beta$ se obtiene a partir de la solución a
+
+$$
+\mathbb{E}_n[(\check Y-b\check D)\check D]=0
+$$
+
+Es decir, una regresión de $\check Y_i$ sobre $\check D_i$
+
+## Referencias
+
+::: {#refs}
+:::

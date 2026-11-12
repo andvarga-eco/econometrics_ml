@@ -33,5 +33,12 @@
     "title": "Random Forest",
     "section": "Referencias",
     "text": "Referencias\n\n\nBreiman, Leo. 2001. «Random forests». Machine Learning 45 (1): 5-32.\n\n\nChernozhukov, Victor, Christian Hansen, Nathan Kallus, Martin Spindler, y Vasilis Syrgkanis. 2024. «Applied causal inference powered by ML and AI». arXiv preprint arXiv:2403.02467 7.\n\n\nGaillac, Christophe, y Jérémy L’Hour. 2025. Machine Learning for Econometrics. Oxford University Press. https://doi.org/10.1093/9780198918868.001.0001."
+  },
+  {
+    "objectID": "presentaciones/dml/index.html#references",
+    "href": "presentaciones/dml/index.html#references",
+    "title": "Double/debiased machine learning (DML)",
+    "section": "Referencias",
+    "text": "Referencias\n\n\nAhrens, Achim, Victor Chernozhukov, Christian Hansen, Damian Kozbur, Mark Schaffer, y Thomas Wiemann. 2025. «An introduction to double/debiased machine learning». arXiv preprint arXiv:2504.08324.\n\n\nChernozhukov, Victor, Christian Hansen, Nathan Kallus, Martin Spindler, y Vasilis Syrgkanis. 2024. «Applied causal inference powered by ML and AI». arXiv preprint arXiv:2403.02467 7."
   }
 ]
