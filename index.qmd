@@ -25,3 +25,16 @@ Cada sesión tiene sus diapositivas y, cuando aplica, un notebook para trabajar 
 
 :::{#listado-sesiones}
 :::
+
+## Preparación para el examen {#examen}
+
+::: {.examen-card}
+::: {.examen-texto}
+### Examen adaptativo de práctica
+
+Preguntas conceptuales, de interpretación de salidas de R y de cálculo sobre todos los temas del curso. La dificultad se ajusta a tus respuestas y al final recibes un diagnóstico por tema con lo que conviene repasar.
+:::
+::: {.examen-accion}
+[[Empezar]{.btn-sesion .btn-primario}](examen_adaptativo/examen_adaptativo.html)
+:::
+:::

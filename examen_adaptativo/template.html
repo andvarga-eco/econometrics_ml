@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Examen adaptativo · Econometría con ML</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&display=swap" rel="stylesheet">
+<script>
+window.MathJax = { tex: { inlineMath: [['$','$'],['\\(','\\)']] }, svg: { fontCache: 'global' }, startup: { typeset: false } };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
+<style>
+:root{
+  --bg:#fbfaf7; --ink:#16181d; --mute:#4a4f59; --line:#e6e3dc; --card:#ffffff;
+  --acc:#d40000; --acc-soft:#fbe9e9; --ok:#1f7a4d; --ok-soft:#e5f3ec; --bad:#b42318; --bad-soft:#fdecea;
+  --warn:#9a6700;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:"IBM Plex Sans",system-ui,sans-serif;font-size:17px;line-height:1.55}
+.wrap{max-width:760px;margin:0 auto;padding:28px 20px 80px}
+h1,h2,h3{font-family:"Source Serif 4",Georgia,serif;font-weight:600;line-height:1.2;margin:0}
+h1{font-size:2rem}
+h2{font-size:1.4rem}
+.eyebrow{font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--acc);font-weight:600}
+.lede{color:var(--mute);margin:.6rem 0 1.6rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px}
+.mode{font:inherit;color:inherit;display:block;width:100%;text-align:left;cursor:pointer;margin-bottom:14px;transition:border-color .15s}
+.mode:hover{border-color:var(--ink)}
+.mode h3{font-size:1.15rem;margin-bottom:4px}
+.mode p{margin:0;color:var(--mute);font-size:.95rem}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.chip{border:1px solid var(--line);background:var(--bg);border-radius:999px;padding:7px 14px;font:inherit;font-size:.9rem;cursor:pointer;color:var(--ink)}
+.chip:hover{border-color:var(--ink)}
+.how{margin-top:26px;color:var(--mute);font-size:.92rem}
+.how b{color:var(--ink)}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:16px}
+.tag{font-size:.82rem;font-weight:600;color:var(--acc)}
+.lvl{display:inline-flex;gap:3px;margin-left:8px;vertical-align:middle}
+.lvl i{width:8px;height:8px;border-radius:50%;background:var(--line);display:block}
+.lvl i.on{background:var(--acc)}
+.lvl-txt{font-size:.78rem;color:var(--mute);margin-left:6px}
+.prog{font-size:.85rem;color:var(--mute);white-space:nowrap}
+.bar{height:4px;background:var(--line);border-radius:4px;margin-bottom:22px;overflow:hidden}
+.bar>div{height:100%;background:var(--ink);transition:width .3s}
+.q{font-size:1.06rem;margin:0 0 16px}
+pre{font-family:"IBM Plex Mono",monospace;font-size:.78rem;background:#f3f1ec;border:1px solid var(--line);border-radius:8px;padding:12px 14px;overflow-x:auto;margin:0 0 16px;line-height:1.45}
+code{font-family:"IBM Plex Mono",monospace;font-size:.88em;background:#f3f1ec;padding:1px 5px;border-radius:4px}
+pre code{background:none;padding:0}
+.opt{display:flex;gap:12px;align-items:flex-start;width:100%;text-align:left;font:inherit;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin-bottom:10px;cursor:pointer;color:var(--ink)}
+.opt:hover:not(:disabled){border-color:var(--ink)}
+.opt .k{flex:none;width:24px;height:24px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;font-size:.8rem;font-weight:600;color:var(--mute)}
+.opt.sel{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+.opt.sel .k{background:var(--ink);color:#fff;border-color:var(--ink)}
+.opt.right{border-color:var(--ok);background:var(--ok-soft)}
+.opt.right .k{background:var(--ok);color:#fff;border-color:var(--ok)}
+.opt.wrong{border-color:var(--bad);background:var(--bad-soft)}
+.opt.wrong .k{background:var(--bad);color:#fff;border-color:var(--bad)}
+.opt:disabled{cursor:default}
+.numrow{display:flex;gap:10px;align-items:center;margin-bottom:10px}
+.numrow input{font:inherit;font-size:1.05rem;padding:10px 12px;border:1px solid var(--line);border-radius:10px;width:200px;background:var(--card)}
+.numrow input:focus{outline:2px solid var(--ink);outline-offset:-1px}
+.hint{font-size:.82rem;color:var(--mute)}
+.actions{display:flex;justify-content:space-between;align-items:center;margin-top:18px;gap:10px}
+.btn{font:inherit;font-weight:600;border:none;border-radius:10px;padding:11px 20px;cursor:pointer;background:var(--ink);color:#fff}
+.btn:disabled{opacity:.35;cursor:default}
+.btn.ghost{background:transparent;color:var(--mute);border:1px solid var(--line);font-weight:500}
+.btn.acc{background:var(--acc)}
+.fb{border-radius:10px;padding:14px 16px;margin-top:6px;font-size:.95rem}
+.fb.ok{background:var(--ok-soft);border-left:4px solid var(--ok)}
+.fb.bad{background:var(--bad-soft);border-left:4px solid var(--bad)}
+.fb b.v{display:block;margin-bottom:4px}
+.adapt{font-size:.82rem;color:var(--mute);margin-top:10px}
+.res-head{display:flex;gap:24px;align-items:flex-end;flex-wrap:wrap;margin:10px 0 24px}
+.big{font-family:"Source Serif 4",serif;font-size:3rem;font-weight:600;line-height:1}
+.big small{font-size:1rem;color:var(--mute);font-weight:400}
+.trow{display:grid;grid-template-columns:1fr auto;gap:4px 12px;padding:14px 0;border-top:1px solid var(--line)}
+.trow:first-child{border-top:none}
+.tname{font-weight:600}
+.tscore{font-size:.85rem;color:var(--mute);text-align:right}
+.meter{grid-column:1/-1;height:8px;background:var(--line);border-radius:8px;overflow:hidden}
+.meter>div{height:100%;border-radius:8px}
+.badge{font-size:.75rem;font-weight:600;padding:2px 8px;border-radius:999px;margin-left:8px}
+.b-ok{background:var(--ok-soft);color:var(--ok)}
+.b-mid{background:#fff4d6;color:var(--warn)}
+.b-bad{background:var(--bad-soft);color:var(--bad)}
+.b-na{background:var(--line);color:var(--mute)}
+.reco{margin-top:22px}
+.reco li{margin-bottom:6px}
+.review details{border-top:1px solid var(--line);padding:12px 0}
+.review summary{cursor:pointer;font-weight:500}
+.review .q{font-size:.95rem;margin-top:10px}
+.muted{color:var(--mute)}
+.back{display:inline-block;font-size:.88rem;color:var(--mute);text-decoration:none;margin-bottom:18px}
+.back:hover{color:var(--ink)}
+a{color:var(--acc)}
+mjx-container[display="false"]{margin:0 1px}
+@media (max-width:520px){
+  html,body{font-size:16px}
+  .wrap{padding:18px 14px 60px}
+  h1{font-size:1.6rem}
+  .card{padding:16px}
+  .numrow input{width:100%}
+}
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+
+<script>
+const TOPICS = __TOPICS__;
+const BANK = __BANK__;
+
+// ---------- motor adaptativo (modelo tipo Rasch con actualización Elo por tema) ----------
+const B = {1:-1, 2:0, 3:1};          // dificultad de cada nivel
+const K = 1.2;                       // tasa de actualización
+const LVLNAME = {1:"Básico",2:"Intermedio",3:"Avanzado"};
+const P1_PER_TOPIC = 2;              // simulacro: preguntas por tema en la fase 1
+const P2_EXTRA = 8;                  // simulacro: preguntas dirigidas a los temas débiles
+const MAX_PER_TOPIC = 5;
+
+let S = null;
+const $ = s => document.querySelector(s);
+const app = $("#app");
+const prob = (th,b) => 1/(1+Math.exp(-(th-b)));
+const shuffle = a => { a=a.slice(); for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; };
+const tname = id => TOPICS.find(t=>t.id===id).name;
+
+function typeset(){ if(window.MathJax && MathJax.typesetPromise){ MathJax.typesetPromise([app]).catch(()=>{}); } else { setTimeout(typeset,300); } }
+
+function newState(mode, topic){
+  const th={}, n={}, c={};
+  TOPICS.forEach(t=>{th[t.id]=0; n[t.id]=0; c[t.id]=0;});
+  return {mode, topic, th, n, c, used:new Set(), log:[], cur:null, last:null,
+          total: mode==="sim" ? TOPICS.length*P1_PER_TOPIC+P2_EXTRA : BANK.filter(q=>q.t===topic).length};
+}
+
+function targetLevel(th){ // nivel cuya dificultad está más cerca de la habilidad estimada
+  let best=2, d=1e9; [1,2,3].forEach(l=>{const dd=Math.abs(th-B[l]); if(dd<d-1e-9 || (Math.abs(dd-d)<1e-9 && l>best)){d=dd;best=l;}}); return best;
+}
+function pickItem(topic){
+  const lv = targetLevel(S.th[topic]);
+  const pool = BANK.filter(q=>q.t===topic && !S.used.has(q.id));
+  if(!pool.length) return null;
+  const minD = Math.min(...pool.map(q=>Math.abs(q.lvl-lv)));
+  const cands = pool.filter(q=>Math.abs(q.lvl-lv)===minD);
+  return cands[Math.floor(Math.random()*cands.length)];
+}
+function hasItems(t){ return BANK.some(q=>q.t===t && !S.used.has(q.id)); }
+function pickTopic(){
+  if(S.mode==="topic") return hasItems(S.topic) ? S.topic : null;
+  const asked = S.log.length;
+  const avail = TOPICS.map(t=>t.id).filter(hasItems);
+  if(!avail.length) return null;
+  if(asked < TOPICS.length*P1_PER_TOPIC){ // fase 1: ronda por todos los temas, en orden del curso
+    const m = Math.min(...avail.map(t=>S.n[t]));
+    return avail.find(t=>S.n[t]===m);
+  }
+  // fase 2: prioriza habilidad baja e incertidumbre alta; evita repetir tema seguido
+  const lastT = S.log.length ? S.log[S.log.length-1].t : null;
+  let cand = avail.filter(t=>S.n[t]<MAX_PER_TOPIC);
+  if(!cand.length) cand = avail;
+  if(cand.length>1) cand = cand.filter(t=>t!==lastT);
+  cand.sort((a,b)=> (-S.th[b] + 0.6/(1+S.n[b])) - (-S.th[a] + 0.6/(1+S.n[a])));
+  return cand[0];
+}
+
+function nextQuestion(){
+  if(S.log.length >= S.total) return showResults();
+  const t = pickTopic(); if(!t) return showResults();
+  const q = pickItem(t); if(!q) return showResults();
+  S.used.add(q.id);
+  const order = q.type==="mc" ? shuffle(q.opts.map((_,i)=>i)) : null;
+  S.cur = {q, order, sel:null, done:false};
+  renderQuestion();
+}
+
+function lvlDots(l){ return `<span class="lvl">${[1,2,3].map(i=>`<i class="${i<=l?'on':''}"></i>`).join("")}</span><span class="lvl-txt">${LVLNAME[l]}</span>`; }
+
+function renderQuestion(){
+  const {q, order} = S.cur;
+  const i = S.log.length+1;
+  const pct = 100*(S.log.length)/S.total;
+  let body = `<p class="q">${q.q}</p>`;
+  if(q.code) body += `<pre><code>${esc(q.code)}</code></pre>`;
+  if(q.type==="mc"){
+    body += order.map((oi,k)=>`<button class="opt" data-oi="${oi}"><span class="k">${"ABCD"[k]}</span><span>${q.opts[oi]}</span></button>`).join("");
+  } else {
+    body += `<div class="numrow"><input id="num" inputmode="decimal" autocomplete="off" placeholder="Tu respuesta"></div><div class="hint">Usa punto o coma decimal.</div>`;
+  }
+  app.innerHTML = `
+    <div class="top">
+      <div><span class="tag">${tname(q.t)}</span>${lvlDots(q.lvl)}</div>
+      <div class="prog">${i} de ${S.total}</div>
+    </div>
+    <div class="bar"><div style="width:${pct}%"></div></div>
+    <div class="card">
+      ${body}
+      <div id="fb"></div>
+      <div class="actions">
+        <button class="btn ghost" id="quit">Terminar</button>
+        <button class="btn" id="go" disabled>Verificar</button>
+      </div>
+    </div>`;
+  if(q.type==="mc"){
+    app.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{
+      if(S.cur.done) return;
+      app.querySelectorAll(".opt").forEach(x=>x.classList.remove("sel"));
+      b.classList.add("sel"); S.cur.sel=+b.dataset.oi; $("#go").disabled=false;
+    });
+  } else {
+    const inp=$("#num");
+    inp.oninput=()=>{ $("#go").disabled = parseNum(inp.value)===null; };
+    inp.onkeydown=e=>{ if(e.key==="Enter" && !$("#go").disabled) $("#go").click(); };
+    setTimeout(()=>inp.focus(),50);
+  }
+  $("#go").onclick = ()=> S.cur.done ? nextQuestion() : check();
+  $("#quit").onclick = showResults;
+  typeset();
+  window.scrollTo({top:0});
+}
+
+function parseNum(s){ s=(s||"").trim().replace(/\s/g,"").replace(",","."); if(!/^[-+]?(\d+\.?\d*|\.\d+)$/.test(s)) return null; return parseFloat(s); }
+
+function check(){
+  const {q} = S.cur;
+  let ok, given;
+  if(q.type==="mc"){ ok = S.cur.sel===q.ans; given=q.opts[S.cur.sel]; }
+  else { const v=parseNum($("#num").value); ok = Math.abs(v-q.ans) <= q.tol + 1e-9; given=String(v); $("#num").disabled=true; }
+  // actualización de la habilidad
+  const before = S.th[q.t];
+  const p = prob(before, B[q.lvl]);
+  S.th[q.t] = before + K*((ok?1:0)-p);
+  S.n[q.t]++; if(ok) S.c[q.t]++;
+  S.log.push({id:q.id,t:q.t,lvl:q.lvl,ok,given});
+  S.cur.done = true;
+  if(q.type==="mc"){
+    app.querySelectorAll(".opt").forEach(b=>{
+      b.disabled=true; const oi=+b.dataset.oi;
+      if(oi===q.ans) b.classList.add("right");
+      else if(oi===S.cur.sel) b.classList.add("wrong");
+    });
+  }
+  const correctTxt = q.type==="num" ? `<br>Respuesta: <b>${fmt(q.ans)}</b>${q.unit?" "+q.unit:""}` : "";
+  let adapt = "";
+  if(S.log.length < S.total && (S.mode==="topic" || S.n[q.t] < MAX_PER_TOPIC)){
+    const nl = targetLevel(S.th[q.t]);
+    adapt = nl>q.lvl ? `La próxima pregunta de este tema será más difícil.` : nl<q.lvl ? `La próxima pregunta de este tema será más sencilla.` : `La próxima pregunta de este tema será de nivel similar.`;
+  }
+  $("#fb").innerHTML = `<div class="fb ${ok?'ok':'bad'}"><b class="v">${ok?'Correcto':'No es correcto'}</b>${q.exp}${ok?'':correctTxt}</div>${adapt?`<div class="adapt">${adapt}</div>`:""}`;
+  const go=$("#go"); go.textContent = S.log.length>=S.total ? "Ver resultados" : "Siguiente"; go.disabled=false; go.focus({preventScroll:true});
+  typeset();
+}
+
+function fmt(x){ return (Math.round(x*10000)/10000).toString(); }
+function esc(s){ return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+
+function status(t){
+  if(!S.n[t]) return {cls:"b-na", txt:"Sin evaluar", col:"var(--line)"};
+  const th=S.th[t];
+  if(th>=0.7) return {cls:"b-ok", txt:"Sólido", col:"var(--ok)"};
+  if(th>=-0.3) return {cls:"b-mid", txt:"En progreso", col:"#d4a017"};
+  return {cls:"b-bad", txt:"Reforzar", col:"var(--bad)"};
+}
+
+function showResults(){
+  const asked = S.log.length;
+  if(!asked){ return renderHome(); }
+  const right = S.log.filter(l=>l.ok).length;
+  const topics = S.mode==="topic" ? TOPICS.filter(t=>t.id===S.topic) : TOPICS;
+  const rows = topics.map(t=>{
+    const st=status(t.id);
+    const w = S.n[t.id] ? Math.round(100*prob(S.th[t.id],0)) : 0;
+    return `<div class="trow">
+      <div><span class="tname">${t.name}</span><span class="badge ${st.cls}">${st.txt}</span></div>
+      <div class="tscore">${S.n[t.id]?`${S.c[t.id]}/${S.n[t.id]} correctas`:"—"}</div>
+      <div class="meter"><div style="width:${w}%;background:${st.col}"></div></div>
+    </div>`;}).join("");
+  const weak = topics.filter(t=>S.n[t.id] && status(t.id).txt!=="Sólido").sort((a,b)=>S.th[a.id]-S.th[b.id]);
+  const reco = weak.length
+    ? `<div class="reco"><h3>Qué repasar</h3><ul>${weak.map(t=>`<li><b>${t.name}</b>: presentación «${t.deck}»${S.mode==="sim"?` · <a href="#" data-pr="${t.id}">practicar este tema</a>`:""}</li>`).join("")}</ul></div>`
+    : `<div class="reco"><h3>Buen trabajo</h3><p class="muted">No hay temas débiles en lo que respondiste. Prueba de nuevo: las preguntas cambian.</p></div>`;
+  const wrongs = S.log.filter(l=>!l.ok);
+  const review = wrongs.length ? `<div class="card review" style="margin-top:18px"><h3 style="margin-bottom:6px">Preguntas a revisar</h3>${wrongs.map(l=>{
+    const q=BANK.find(x=>x.id===l.id);
+    const ans = q.type==="mc" ? q.opts[q.ans] : fmt(q.ans);
+    return `<details><summary>${tname(q.t)} · ${LVLNAME[q.lvl]}</summary><p class="q">${q.q}</p>${q.code?`<pre><code>${esc(q.code)}</code></pre>`:""}<p><span class="muted">Tu respuesta:</span> ${l.given}<br><span class="muted">Correcta:</span> ${ans}</p><p class="muted">${q.exp}</p></details>`;}).join("")}</div>` : "";
+  app.innerHTML = `
+    <div class="eyebrow">Resultados</div>
+    <div class="res-head">
+      <div class="big">${right}<small> / ${asked} correctas</small></div>
+      <div class="muted">${S.mode==="sim"?"Simulacro adaptativo":"Práctica: "+tname(S.topic)}</div>
+    </div>
+    <div class="card">${rows}</div>
+    ${reco}
+    ${review}
+    <div class="actions" style="margin-top:24px">
+      <button class="btn ghost" id="home">Inicio</button>
+      <button class="btn acc" id="again">Intentar de nuevo</button>
+    </div>
+    <p class="hint" style="margin-top:16px">El nivel de cada tema se estima con tus respuestas: acertar una pregunta difícil sube más tu nivel que acertar una fácil, y fallar una fácil lo baja más. Con pocas preguntas por tema la estimación es aproximada.</p>`;
+  $("#home").onclick = renderHome;
+  const m=S.mode, tp=S.topic;
+  $("#again").onclick = ()=>{ S=newState(m,tp); nextQuestion(); };
+  app.querySelectorAll("[data-pr]").forEach(a=>a.onclick=e=>{e.preventDefault(); S=newState("topic",a.dataset.pr); nextQuestion();});
+  typeset();
+  window.scrollTo({top:0});
+}
+
+const ON_SITE = location.protocol==="file:" || /github\.io$|^localhost$|^127\.0\.0\.1$/.test(location.hostname);
+const BACK = ON_SITE ? `<a class="back" href="../index.html">← Sitio del curso</a>` : "";
+function renderHome(){
+  const nq = BANK.length;
+  app.innerHTML = `${BACK}
+    <div class="eyebrow">Econometría con Machine Learning · Maestría</div>
+    <h1>Examen adaptativo</h1>
+    <p class="lede">Prepárate para el examen con preguntas que se ajustan a tu nivel. Si aciertas, la siguiente pregunta del tema es más difícil; si fallas, ves la explicación y la siguiente es más sencilla.</p>
+    <button class="card mode" id="sim">
+      <h3>Simulacro completo</h3>
+      <p>${TOPICS.length*P1_PER_TOPIC+P2_EXTRA} preguntas sobre los ${TOPICS.length} temas del curso. Al final, un diagnóstico por tema. Unos 30–40 minutos.</p>
+    </button>
+    <div class="card">
+      <h3 style="font-size:1.15rem;margin-bottom:4px">Practicar un tema</h3>
+      <p class="muted" style="margin:0;font-size:.95rem">Todas las preguntas del tema, adaptadas a tu nivel.</p>
+      <div class="chips">${TOPICS.map(t=>`<button class="chip" data-t="${t.id}">${t.name}</button>`).join("")}</div>
+    </div>
+    <div class="how">
+      <p><b>Tipos de pregunta:</b> conceptuales, interpretación de salidas de R de los notebooks del curso y ejercicios de cálculo con respuesta numérica.</p>
+      <p><b>Niveles:</b> cada pregunta es básica, intermedia o avanzada. El banco tiene ${nq} preguntas y el orden cambia en cada intento.</p>
+      <p>Es una herramienta de autoestudio: tus respuestas no se envían a nadie.</p>
+    </div>`;
+  $("#sim").onclick=()=>{ S=newState("sim"); nextQuestion(); };
+  app.querySelectorAll(".chip").forEach(c=>c.onclick=()=>{ S=newState("topic",c.dataset.t); nextQuestion(); });
+  window.scrollTo({top:0});
+}
+
+renderHome();
+</script>
+</body>
+</html>

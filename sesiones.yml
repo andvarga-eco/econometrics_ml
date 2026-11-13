@@ -55,5 +55,5 @@
   title: "Debiased Machine Learning, DML"
   temas: [Inferencia en modelos no lineales]   # agrega aquí los temas cuando prepares la sesión
   slides: presentaciones/dml/index.html
-  #colab: "https://colab.research.google.com/github/andvarga-eco/econometrics_ml/blob/main/notebooks/randomForest.ipynb"
+  colab: "https://colab.research.google.com/github/andvarga-eco/econometrics_ml/blob/main/notebooks/dml.ipynb"
   estado: publicada

@@ -10,6 +10,9 @@ project:
   render:
     - index.qmd
     - presentaciones/**/index.qmd
+  # Archivos que se copian tal cual al sitio publicado
+  resources:
+    - examen_adaptativo/examen_adaptativo.html
 
 lang: es
 
@@ -27,6 +30,8 @@ website:
     right:
       - text: "Sesiones"
         href: index.qmd#sesiones
+      - text: "Examen de práctica"
+        href: examen_adaptativo/examen_adaptativo.html
       - icon: github
         href: "https://github.com/andvarga-eco/econometrics_ml"
         aria-label: "Repositorio en GitHub"
