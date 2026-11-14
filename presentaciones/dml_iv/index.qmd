@@ -1,0 +1,273 @@
+---
+title: "DML en el modelo lineal parcial con variables instrumentales"
+
+---
+
+# Motivación
+
+## ¿Por qué DML con variables instrumentales?
+
+En el modelo lineal parcial (PLM) supusimos que, condicional a $X$, el regresor $D$ es exógeno. Con frecuencia eso no es creíble
+
+- **Simultaneidad:** $D$ y $Y$ se determinan conjuntamente
+- **Variables omitidas** no observables que afectan a $D$ y $Y$
+
+Si contamos con un instrumento $Z$ que es exógeno **condicional a $X$**, podemos combinar
+
+:::: {.columns}
+::: {.column width="50%"}
+::: {.tarjeta}
+[Variables instrumentales]{.tarjeta-titulo}
+
+Para resolver la endogeneidad de $D$
+:::
+:::
+::: {.column width="50%"}
+::: {.tarjeta .acento}
+[Machine learning]{.tarjeta-titulo}
+
+Para controlar por $X$ de forma flexible, sin imponer una forma funcional lineal
+:::
+:::
+::::
+
+# El modelo lineal parcial IV
+
+## La restricción de exclusión {.smaller}
+
+Siguiendo a @chernozhukov2024applied, el parámetro $\theta_0$ satisface la restricción de exclusión
+
+$$
+E[\epsilon\,\tilde Z]=0,\qquad \epsilon:=\tilde Y-\theta_0\tilde D
+$$
+
+donde las variables están "residualizadas" respecto a $X$
+
+$$
+\begin{aligned}
+\tilde Y &= Y-\ell_0(X), & \ell_0(X)&=E[Y\mid X]\\
+\tilde D &= D-r_0(X), & r_0(X)&=E[D\mid X]\\
+\tilde Z &= Z-m_0(X), & m_0(X)&=E[Z\mid X]
+\end{aligned}
+$$
+
+- Por simplicidad, $\dim(\tilde Z)=\dim(\tilde D)$ (caso exactamente identificado)
+- Esta estructura cubre el **modelo lineal parcial IV** $\;Y=\theta_0 D+g_0(X)+\epsilon,\; E[\epsilon\mid Z,X]=0$
+
+## La función score {.smaller}
+
+Usamos el algoritmo general de DML con el score
+
+$$
+\psi(W;\theta,\eta):=\big(Y-\ell(X)-\theta(D-r(X))\big)\big(Z-m(X)\big)
+$$
+
+con $W=(Y,D,X,Z)$ y parámetros fastidiosos $\eta=(\ell,m,r)$
+
+- **Identificación:** $E[\psi(W;\theta_0,\eta_0)]=0$
+- **Ortogonalidad de Neyman:** $\partial_\eta E[\psi(W;\theta_0,\eta_0)]=0$
+
+::: {.callout-tip title="Ejercicio: verifique la ortogonalidad"}
+Perturbe cada componente en una dirección $h(X)$ y derive en cero
+
+- En $\ell$: $\;-E[\tilde Z\,h(X)]=0$ porque $E[\tilde Z\mid X]=0$
+- En $r$: $\;\theta_0E[\tilde Z\,h(X)]=0$, por la misma razón
+- En $m$: $\;-E[\epsilon\,h(X)]=0$ porque $E[\epsilon\mid X]=E[\tilde Y\mid X]-\theta_0E[\tilde D\mid X]=0$
+:::
+
+## El algoritmo DML para el PLIV {.smaller}
+
+1. **Cross-fitting.** Parta los índices en $K$ folds $\{I_k\}_{k=1}^K$. Para cada $k$, estime con ML $\hat\ell_{[k]}(X)$, $\hat r_{[k]}(X)$, $\hat m_{[k]}(X)$ **dejando por fuera** el fold $k$, y calcule para $i\in I_k$
+$$
+\check Y_i=Y_i-\hat\ell_{[k]}(X_i),\qquad \check D_i=D_i-\hat r_{[k]}(X_i),\qquad \check Z_i=Z_i-\hat m_{[k]}(X_i)
+$$
+2. **IV sobre residuales.** Estime por IV la regresión de $\check Y_i$ sobre $\check D_i$ usando $\check Z_i$ como instrumento: $\hat\theta$ resuelve
+$$
+\mathbb{E}_n\big[(\check Y-\theta\check D)\check Z\big]=0\quad\Longrightarrow\quad \hat\theta=\frac{\mathbb{E}_n[\check Z\check Y]}{\mathbb{E}_n[\check Z\check D]}
+$$
+3. **Inferencia.** Errores estándar e intervalos de confianza como en la teoría estándar de IV lineal
+
+::: {.callout-note title="Tres funciones de predicción"}
+A diferencia del PLM, ahora aprendemos **tres** expectativas condicionales: $E[Y\mid X]$, $E[D\mid X]$ y $E[Z\mid X]$
+:::
+
+## Inferencia adaptativa {.smaller}
+
+::: {.callout-important title="Teorema 13.1.1"}
+Suponga que (1) el **instrumento es fuerte**: $E[\tilde D\tilde Z]$ está bien separado de cero, y (2) los estimadores de ML son de buena calidad:
+$$
+n^{1/4}\|\hat\ell_{[k]}-\ell_0\|_{L^2}\approx0,\quad n^{1/4}\|\hat m_{[k]}-m_0\|_{L^2}\approx0,\quad n^{1/4}\|\hat r_{[k]}-r_0\|_{L^2}\approx0
+$$
+Entonces el error de estimación en $\check D_i$, $\check Y_i$ no tiene efecto de primer orden sobre $\hat\theta$ y
+$$
+\sqrt n(\hat\theta-\theta_0)\overset{a}{\sim}N(0,V),\qquad V=\big(E[\tilde D\tilde Z']\big)^{-1}E[\tilde Z\tilde Z'\epsilon^2]\big(E[\tilde Z\tilde D']\big)^{-1}
+$$
+:::
+
+- Error estándar: $\sqrt{\hat V/n}$, con $\hat V$ obtenido por *plug-in*
+- IC al 95%: $\big[\hat\theta-2\sqrt{\hat V/n},\;\hat\theta+2\sqrt{\hat V/n}\big]$
+- Si el instrumento es **débil**, este resultado falla $\Rightarrow$ inferencia robusta (sección 13.3)
+
+# Aplicación: instituciones y crecimiento
+
+## La pregunta de @acemoglu2001colonial (AJR)
+
+¿Cuál es el efecto causal de las **instituciones** sobre el **ingreso** de los países?
+
+| | Variable | Medida |
+|---|---|---|
+| $Y$ | Resultado | Log del PIB per cápita |
+| $D$ | Endógena | Índice de protección contra el riesgo de expropiación |
+| $Z$ | Instrumento | Mortalidad de los primeros colonos europeos |
+| $X$ | Controles | Distancia al ecuador (latitud) y dummies de continente |
+
+- **Simultaneidad:** mejores instituciones generan más ingreso, pero más ingreso también puede llevar a mejores instituciones
+
+## El argumento de identificación {.smaller}
+
+**Relevancia.** Los colonos establecieron mejores instituciones donde tenían más probabilidad de asentarse a largo plazo; dónde se asentaron dependía de la mortalidad que enfrentaban; y las instituciones son altamente persistentes
+
+**Exclusión.** El PIB actual, aunque persistente, difícilmente depende de la mortalidad de hace un siglo o más, **excepto a través de las instituciones**
+
+::: {.callout-note title="El papel de la geografía"}
+La estrategia falla si otros factores persistentes afectan tanto las instituciones como el PIB. El candidato principal es la **geografía**
+
+- AJR: el efecto de la geografía se captura con un término **lineal** en latitud y dummies de continente
+- DML: basta que la geografía se controle con una **función desconocida** $g(X)$ de esas variables, que aprendemos con ML
+:::
+
+## El DAG {.smaller}
+
+:::: {.columns}
+::: {.column width="55%"}
+```{=html}
+<svg viewBox="0 0 620 280" style="width:100%; max-height:380px;" xmlns="http://www.w3.org/2000/svg" font-family="Georgia, serif" font-style="italic" font-size="30">
+  <defs>
+    <marker id="fl" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#2b2f36"/>
+    </marker>
+    <marker id="flr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#d40000"/>
+    </marker>
+  </defs>
+  <g stroke="#d40000" stroke-width="2.4" fill="none" marker-end="url(#flr)">
+    <line x1="105" y1="60" x2="198" y2="60"/>
+    <line x1="262" y1="60" x2="348" y2="60"/>
+    <line x1="412" y1="60" x2="518" y2="60"/>
+  </g>
+  <g stroke="#2b2f36" stroke-width="1.6" fill="none" marker-end="url(#fl)">
+    <line x1="80" y1="195" x2="80" y2="88"/>
+    <line x1="205" y1="215" x2="108" y2="215"/>
+    <line x1="210" y1="195" x2="102" y2="85"/>
+    <line x1="230" y1="190" x2="230" y2="93"/>
+    <line x1="250" y1="195" x2="362" y2="83"/>
+    <line x1="255" y1="200" x2="522" y2="75"/>
+    <line x1="255" y1="215" x2="448" y2="215"/>
+    <line x1="465" y1="190" x2="398" y2="85"/>
+    <line x1="495" y1="190" x2="535" y2="85"/>
+  </g>
+  <g fill="none" stroke="#7a7f88" stroke-width="1.4" stroke-dasharray="5 4">
+    <circle cx="230" cy="60" r="30"/>
+    <circle cx="80" cy="215" r="27"/>
+    <circle cx="480" cy="215" r="27"/>
+  </g>
+  <g fill="#2b2f36" text-anchor="middle" dominant-baseline="central">
+    <text x="80" y="60" fill="#d40000">Z</text>
+    <text x="230" y="60">O</text>
+    <text x="380" y="60" fill="#d40000">D</text>
+    <text x="545" y="60" fill="#d40000">Y</text>
+    <text x="80" y="215">L</text>
+    <text x="230" y="215">X</text>
+    <text x="480" y="215">A</text>
+  </g>
+</svg>
+```
+::: {style="font-size:.75em; color:#4a4f59;"}
+Círculos punteados: variables latentes. Adaptado de @chernozhukov2024applied, figura 13.1
+:::
+:::
+::: {.column width="45%"}
+- $Z$: mortalidad de los colonos
+- $O$: instituciones tempranas
+- $D$: instituciones modernas
+- $Y$: riqueza (PIB per cápita)
+- $X$: geografía observada
+- $A$: factores latentes actuales que afectan $D$ y $Y$
+- $L$: factores latentes tempranos que afectan $Z$
+
+$X$ bloquea las rutas *backdoor* de $Z$ hacia $D$ y hacia $Y$ $\Rightarrow$ $Z$ es exógeno **condicional a $X$**
+:::
+::::
+
+## Amenazas a la identificación
+
+La amenaza directa: que $L$ afecte **directamente** a $Z$ y también a $O$, $D$ o $Y$
+
+- Ejemplo: la **religión** de los colonos (católicos vs protestantes) podría relacionarse con el tipo de instituciones que establecieron y con su mortalidad
+- En ese caso habría que incluir $L$ como control
+- AJR examinan esta amenaza con controles de religión y otros controles adicionales
+
+::: {.callout-tip title="Para pensar"}
+¿Qué otras variables latentes tempranas podrían violar la restricción de exclusión? ¿Cómo cambiaría el DAG?
+:::
+
+## Implementación {.smaller}
+
+DML con *cross-fitting* de $K=5$ folds y dos métodos para aprender $\eta=(\ell,m,r)$
+
+:::: {.columns}
+::: {.column width="50%"}
+::: {.tarjeta}
+[Lasso (penalización plug-in)]{.tarjeta-titulo}
+
+Diccionario de controles técnicos: latitud y latitud$^2$ **interactuadas** con las dummies de continente
+:::
+:::
+::: {.column width="50%"}
+::: {.tarjeta .acento}
+[Random forest (parámetros por defecto)]{.tarjeta-titulo}
+
+Controles en bruto: latitud y dummies de continente. El bosque descubre las interacciones y no linealidades
+:::
+:::
+::::
+
+- Se compara el RMSE fuera de muestra (cross-fit) de cada método al predecir $Y$, $D$ y $Z$
+- El random forest predice mejor las tres variables $\Rightarrow$ el estimador "Best" usa random forest en todos los pasos
+
+## Resultados
+
+:::: {.columns}
+::: {.column width="55%"}
+| | Lasso | Forest | Best |
+|---|:---:|:---:|:---:|
+| $\hat\theta$ | 0.73 | 0.86 | 0.86 |
+| | (0.19) | (0.33) | (0.33) |
+| **AJR** (Tabla 4, col. 7) | | | 1.10 |
+| | | | (0.46) |
+
+::: {style="font-size:.7em; color:#4a4f59;"}
+Errores estándar entre paréntesis. Fuente: @chernozhukov2024applied, tabla 13.1
+:::
+:::
+::: {.column width="45%"}
+- Estimaciones **grandes, positivas** y significativas al 5% en todos los casos
+- Algo menores que la estimación de AJR, pero cualitativamente similares
+- Lectura: una mejora de una unidad en el índice de protección contra la expropiación aumenta el PIB per cápita en torno a $e^{0.86}-1\approx 136\%$
+:::
+::::
+
+## Mensajes clave
+
+::: {.incremental}
+- DML-IV = **partialling-out con ML** de $Y$, $D$ y $Z$ + **IV sobre los residuales**
+- El score es Neyman ortogonal: los errores de ML en $\ell$, $r$, $m$ no sesgan $\hat\theta$ a primer orden
+- *Cross-fitting* evita el sesgo por sobreajuste
+- La normalidad asintótica requiere un **instrumento fuerte**; con instrumentos débiles hay que usar inferencia robusta
+- En AJR, relajar la linealidad en la geografía **no cambia la conclusión**: las instituciones tienen un efecto positivo y grande sobre el ingreso
+:::
+
+## Referencias
+
+::: {#refs}
+:::

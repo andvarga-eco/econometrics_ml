@@ -40,5 +40,12 @@
     "title": "Double/debiased machine learning (DML)",
     "section": "Referencias",
     "text": "Referencias\n\n\nAhrens, Achim, Victor Chernozhukov, Christian Hansen, Damian Kozbur, Mark Schaffer, y Thomas Wiemann. 2025. «An introduction to double/debiased machine learning». arXiv preprint arXiv:2504.08324.\n\n\nChernozhukov, Victor, Christian Hansen, Nathan Kallus, Martin Spindler, y Vasilis Syrgkanis. 2024. «Applied causal inference powered by ML and AI». arXiv preprint arXiv:2403.02467 7."
+  },
+  {
+    "objectID": "presentaciones/dml_iv/index.html#references",
+    "href": "presentaciones/dml_iv/index.html#references",
+    "title": "DML en el modelo lineal parcial con variables instrumentales",
+    "section": "Referencias",
+    "text": "Referencias\n\n\nAcemoglu, Daron, Simon Johnson, y James A. Robinson. 2001. «The Colonial Origins of Comparative Development: An Empirical Investigation». American Economic Review 91 (5): 1369-401.\n\n\nChernozhukov, Victor, Christian Hansen, Nathan Kallus, Martin Spindler, y Vasilis Syrgkanis. 2024. «Applied causal inference powered by ML and AI». arXiv preprint arXiv:2403.02467 7."
   }
 ]
