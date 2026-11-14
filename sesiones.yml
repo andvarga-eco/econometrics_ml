@@ -58,7 +58,7 @@
   colab: "https://colab.research.google.com/github/andvarga-eco/econometrics_ml/blob/main/notebooks/dml.ipynb"
   estado: publicada
 
-  - numero: 7
+- numero: 7
   title: "IV-DML"
   temas: [DML para Variables instrumentales]   # agrega aquí los temas cuando prepares la sesión
   slides: presentaciones/dml_iv/index.html
